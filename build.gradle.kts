@@ -13,11 +13,14 @@ allprojects {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
     }
+}
 
+subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
     }
 }
+
 //
 //dependencies {
 //    testImplementation(kotlin("test"))
