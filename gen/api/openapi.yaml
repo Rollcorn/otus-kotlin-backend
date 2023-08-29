@@ -1,0 +1,367 @@
+openapi: 3.0.4
+info:
+  description: This is a place where sellers and buyers meat each other
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: Marketplace ${VERSION_APP}
+  version: 1.0.0
+servers:
+- url: http://localhost:8080/v1
+tags:
+- description: Транзакция (о пололнении или списании со счета) - операции со счетом
+    пользователя
+  name: transaction
+paths:
+  /transaction/create:
+    post:
+      operationId: transactionCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionCreateRequest'
+        description: Request body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionCreateResponse'
+          description: Success
+      summary: Create transaction
+      tags:
+      - transaction
+      x-contentType: application/json
+      x-accepts: application/json
+  /transaction/read:
+    post:
+      operationId: transactionRead
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionReadRequest'
+        description: Request body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionReadResponse'
+          description: Success
+      summary: Read transaction
+      tags:
+      - transaction
+      x-contentType: application/json
+      x-accepts: application/json
+  /transaction/update:
+    post:
+      operationId: transactionUpdate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionUpdateRequest'
+        description: Request body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionUpdateResponse'
+          description: Success
+      summary: Update transaction
+      tags:
+      - transaction
+      x-contentType: application/json
+      x-accepts: application/json
+  /transaction/delete:
+    post:
+      operationId: transactionDelete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionDeleteRequest'
+        description: Request body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDeleteResponse'
+          description: Success
+      summary: Delete transaction
+      tags:
+      - transaction
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    IRequest:
+      description: Базовый интерфейс для всех запросов
+      discriminator:
+        mapping:
+          create: '#/components/schemas/TransactionCreateRequest'
+          read: '#/components/schemas/TransactionReadRequest'
+          update: '#/components/schemas/TransactionUpdateRequest'
+          delete: '#/components/schemas/TransactionDeleteRequest'
+        propertyName: requestType
+      properties:
+        requestType:
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+          type: string
+        requestId:
+          description: Идентификатор запроса для отладки
+          type: string
+      type: object
+    Error:
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+      type: object
+    ResponseResult:
+      enum:
+      - success
+      - error
+      type: string
+    IResponse:
+      description: Базовый интерфейс для всех ответов
+      discriminator:
+        mapping:
+          create: '#/components/schemas/TransactionCreateResponse'
+          read: '#/components/schemas/TransactionReadResponse'
+          update: '#/components/schemas/TransactionUpdateResponse'
+          delete: '#/components/schemas/TransactionDeleteResponse'
+        propertyName: responseType
+      properties:
+        responseType:
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+          type: string
+        requestId:
+          description: Идентификатор запроса для отладки
+          type: string
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          items:
+            $ref: '#/components/schemas/Error'
+          type: array
+      type: object
+    UserId:
+      description: Идентификатор пользователя
+      type: string
+    TransactionId:
+      description: Идентификатор транзакции
+      type: string
+    TransactionLock:
+      description: Версия оптимистичной блокировки
+      type: string
+    BaseTransaction:
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        title:
+          description: Заголовок транзакции
+          type: string
+        amount:
+          description: Суммма транзакции
+          type: string
+        transactionType:
+          $ref: '#/components/schemas/TransactionType'
+        transactionStatus:
+          $ref: '#/components/schemas/TransactionStatus'
+      type: object
+    TransactionType:
+      description: 'Тип транзакции: пополнение или списание'
+      enum:
+      - income
+      - outcome
+      type: string
+    TransactionStatus:
+      description: 'Статус транзакции: может быть постоянной (повторяется с постоянным
+        интервалом) , временная (повторяется в течении определенного интервала), единичная'
+      enum:
+      - constant
+      - temporal
+      - single
+      type: string
+    TransactionInitResponse:
+      allOf:
+      - $ref: '#/components/schemas/IResponse'
+    TransactionCreateObject:
+      allOf:
+      - $ref: '#/components/schemas/BaseTransaction'
+    TransactionCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/IRequest'
+      - $ref: '#/components/schemas/TransactionRequestDebug'
+      - $ref: '#/components/schemas/TransactionCreateRequest_allOf'
+    TransactionReadObject:
+      allOf:
+      - $ref: '#/components/schemas/TransactionReadObject_allOf'
+    TransactionReadRequest:
+      allOf:
+      - $ref: '#/components/schemas/IRequest'
+      - $ref: '#/components/schemas/TransactionRequestDebug'
+      - $ref: '#/components/schemas/TransactionReadRequest_allOf'
+    TransactionUpdateObject:
+      allOf:
+      - $ref: '#/components/schemas/BaseTransaction'
+      - $ref: '#/components/schemas/TransactionUpdateObject_allOf'
+    TransactionUpdateRequest:
+      allOf:
+      - $ref: '#/components/schemas/IRequest'
+      - $ref: '#/components/schemas/TransactionRequestDebug'
+      - $ref: '#/components/schemas/TransactionUpdateRequest_allOf'
+    TransactionDeleteObject:
+      allOf:
+      - $ref: '#/components/schemas/TransactionUpdateObject_allOf'
+    TransactionDeleteRequest:
+      allOf:
+      - $ref: '#/components/schemas/IRequest'
+      - $ref: '#/components/schemas/TransactionRequestDebug'
+      - $ref: '#/components/schemas/TransactionDeleteRequest_allOf'
+    TransactionResponseObject:
+      allOf:
+      - $ref: '#/components/schemas/BaseTransaction'
+      - $ref: '#/components/schemas/TransactionResponseObject_allOf'
+    TransactionPermissions:
+      description: Доступы для клиента для операций над транзакцией
+      enum:
+      - read
+      - update
+      - delete
+      type: string
+    TransactionResponseSingle:
+      allOf:
+      - $ref: '#/components/schemas/TransactionResponseSingle_allOf'
+    TransactionResponseMulti:
+      allOf:
+      - $ref: '#/components/schemas/TransactionResponseMulti_allOf'
+    TransactionCreateResponse:
+      allOf:
+      - $ref: '#/components/schemas/IResponse'
+      - $ref: '#/components/schemas/TransactionResponseSingle'
+    TransactionReadResponse:
+      allOf:
+      - $ref: '#/components/schemas/IResponse'
+      - $ref: '#/components/schemas/TransactionResponseSingle'
+    TransactionUpdateResponse:
+      allOf:
+      - $ref: '#/components/schemas/IResponse'
+      - $ref: '#/components/schemas/TransactionResponseSingle'
+    TransactionDeleteResponse:
+      allOf:
+      - $ref: '#/components/schemas/IResponse'
+      - $ref: '#/components/schemas/TransactionResponseSingle'
+    TransactionRequestDebugMode:
+      enum:
+      - prod
+      - test
+      - stub
+      type: string
+    TransactionRequestDebug:
+      properties:
+        debug:
+          $ref: '#/components/schemas/TransactionDebug'
+      type: object
+    TransactionDebug:
+      properties:
+        mode:
+          $ref: '#/components/schemas/TransactionRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/TransactionRequestDebugStubs'
+      type: object
+    TransactionRequestDebugStubs:
+      description: Перечисления всех стабов
+      enum:
+      - success
+      - notFound
+      - badId
+      - badTitle
+      - badDescription
+      - badVisibility
+      - cannotDelete
+      - badSearchString
+      type: string
+    TransactionCreateRequest_allOf:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionCreateObject'
+      type: object
+    TransactionReadObject_allOf:
+      properties:
+        id:
+          description: Идентификатор транзакции
+          type: string
+      type: object
+    TransactionReadRequest_allOf:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionReadObject'
+      type: object
+    TransactionUpdateObject_allOf:
+      properties:
+        id:
+          description: Идентификатор транзакции
+          type: string
+        lock:
+          description: Версия оптимистичной блокировки
+          type: string
+      type: object
+    TransactionUpdateRequest_allOf:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionUpdateObject'
+      type: object
+    TransactionDeleteRequest_allOf:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionDeleteObject'
+      type: object
+    TransactionResponseObject_allOf:
+      description: Объект, который возвращается в ответе бэкенда
+      properties:
+        id:
+          description: Идентификатор транзакции
+          type: string
+        ownerId:
+          description: Идентификатор пользователя
+          type: string
+        lock:
+          description: Версия оптимистичной блокировки
+          type: string
+        permissions:
+          items:
+            $ref: '#/components/schemas/TransactionPermissions'
+          type: array
+          uniqueItems: true
+      type: object
+    TransactionResponseSingle_allOf:
+      description: Ответ с одним объектом транзакции
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionResponseObject'
+      type: object
+    TransactionResponseMulti_allOf:
+      description: Список найденных объектов
+      properties:
+        transactions:
+          items:
+            $ref: '#/components/schemas/TransactionResponseObject'
+          type: array
+      type: object
+
