@@ -16,4 +16,4 @@ pluginManagement {
 include("api-v1-jackson")
 //include("api-v1-jackson")
 //include("ok-marketplace-api-v2-kmp")
-include("acceptence")
+include("acceptance")
