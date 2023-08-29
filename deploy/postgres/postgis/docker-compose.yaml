@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  otus_postgis:
+    image: "postgis/postgis:13-3.3"
+    volumes:
+      - ./../create_schema.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=postgres
+      - ALLOW_IP_RANGE=0.0.0.0/0
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    networks:
+      - otus_local_network
+
+networks:
+  otus_local_network:
+    name: otus_local_network
+    driver: bridge
