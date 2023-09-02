@@ -1,9 +1,9 @@
 rootProject.name = "otus-kotlin-backend"
-include("m1l1-init")
 
 pluginManagement {
     val kotlinVersion: String by settings
     val openapiVersion: String by settings
+
     plugins {
         kotlin("jvm") version kotlinVersion apply false
 
@@ -13,7 +13,9 @@ pluginManagement {
 //        application
     }
 }
+
 include("api-v1-jackson")
-//include("api-v1-jackson")
-//include("ok-marketplace-api-v2-kmp")
 include("acceptance")
+//include("m1l1-init")
+include("financyapp-common")
+//include("financyapp-mappers-v1")
