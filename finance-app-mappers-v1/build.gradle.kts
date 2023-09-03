@@ -7,8 +7,8 @@ version = rootProject.version
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(project(":api-v1-jackson"))
-    implementation(project(":financyapp-common"))
+    implementation(project(":finance-api-v1-jackson"))
+    implementation(project(":finance-app-common"))
 
     testImplementation(kotlin("test-junit"))
 }

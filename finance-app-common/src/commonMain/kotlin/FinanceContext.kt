@@ -6,7 +6,7 @@ import org.ok.shkandiuk.financyapp.models.FinanceCommand
 import org.ok.shkandiuk.financyapp.models.common.*
 import org.ok.shkandiuk.financyapp.models.transaction.FinanceTransaction
 
-data class FinancyContext(
+data class FinanceContext(
     var command: FinanceCommand = FinanceCommand.NONE,
     var state: FinanceState = FinanceState.NONE,
     val errors: MutableList<FinanceError> = mutableListOf(),

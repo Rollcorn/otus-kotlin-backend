@@ -1,6 +1,6 @@
 package org.ok.shkandiuk.financyapp.mappers.v1
 
-import org.ok.shkandiuk.financyapp.FinancyContext
+import org.ok.shkandiuk.financyapp.FinanceContext
 import org.ok.shkandiuk.financyapp.api.v1.models.*
 import org.ok.shkandiuk.financyapp.exception.UnknownRequestClass
 import org.ok.shkandiuk.financyapp.models.FinanceCommand
@@ -12,7 +12,7 @@ import org.ok.shkandiuk.financyapp.models.transaction.FinanceTransactionStatus
 import org.ok.shkandiuk.financyapp.models.transaction.FinanceTransactionType
 import org.ok.shkandiuk.financyapp.stubs.FinancyStubs
 
-fun FinancyContext.fromTransport(request: IRequest) = when (request) {
+fun FinanceContext.fromTransport(request: IRequest) = when (request) {
     is TransactionCreateRequest -> fromTransport(request)
     is TransactionReadRequest -> fromTransport(request)
     is TransactionDeleteRequest -> fromTransport(request)
@@ -24,7 +24,7 @@ private fun String?.toTransactionId() = this?.let { FinanceTransactionId(it) } ?
 private fun String?.toTransactionWithId() = FinanceTransaction(id = this.toTransactionId())
 private fun IRequest?.requestId() = this?.requestId?.let { FinanceRequestId(it) } ?: FinanceRequestId.NONE
 
-fun FinancyContext.fromTransport(request: TransactionCreateRequest) {
+fun FinanceContext.fromTransport(request: TransactionCreateRequest) {
     command = FinanceCommand.CREATE
     requestId = request.requestId()
     transactionRequest = request.transaction?.toInternal() ?: FinanceTransaction()
@@ -32,7 +32,7 @@ fun FinancyContext.fromTransport(request: TransactionCreateRequest) {
     stubCase = request.debug.transportToStubCase()
 }
 
-fun FinancyContext.fromTransport(request: TransactionReadRequest) {
+fun FinanceContext.fromTransport(request: TransactionReadRequest) {
     command = FinanceCommand.READ
     requestId = request.requestId()
     transactionRequest = request.transaction?.id.toTransactionWithId()
@@ -40,7 +40,7 @@ fun FinancyContext.fromTransport(request: TransactionReadRequest) {
     stubCase = request.debug.transportToStubCase()
 }
 
-fun FinancyContext.fromTransport(request: TransactionDeleteRequest) {
+fun FinanceContext.fromTransport(request: TransactionDeleteRequest) {
     command = FinanceCommand.CREATE
     requestId = request.requestId()
     transactionRequest = request.transaction?.id.toTransactionWithId()
@@ -48,7 +48,7 @@ fun FinancyContext.fromTransport(request: TransactionDeleteRequest) {
     stubCase = request.debug.transportToStubCase()
 }
 
-fun FinancyContext.fromTransport(request: TransactionUpdateRequest) {
+fun FinanceContext.fromTransport(request: TransactionUpdateRequest) {
     command = FinanceCommand.CREATE
     requestId = request.requestId()
     transactionRequest = request.transaction?.toInternal() ?: FinanceTransaction()

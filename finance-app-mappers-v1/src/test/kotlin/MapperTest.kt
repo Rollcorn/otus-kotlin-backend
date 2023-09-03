@@ -1,7 +1,7 @@
 package org.ok.shkandiuk.financyapp.mappers.v1
 
 import org.junit.Test
-import org.ok.shkandiuk.financyapp.FinancyContext
+import org.ok.shkandiuk.financyapp.FinanceContext
 import org.ok.shkandiuk.financyapp.api.v1.models.*
 import org.ok.shkandiuk.financyapp.models.FinanceCommand
 import org.ok.shkandiuk.financyapp.models.common.*
@@ -31,7 +31,7 @@ class MapperTest {
             ),
         )
 
-        val context = FinancyContext()
+        val context = FinanceContext()
         context.fromTransport(req)
 
         assertEquals(FinancyStubs.SUCCESS, context.stubCase)
@@ -44,7 +44,7 @@ class MapperTest {
     @Test
     fun toTransport() {
         val givenId = UUID.randomUUID().toString()
-        val context = FinancyContext(
+        val context = FinanceContext(
             requestId = FinanceRequestId("1234"),
             command = FinanceCommand.CREATE,
             transactionResponse = FinanceTransaction(

@@ -1,6 +1,6 @@
 package org.ok.shkandiuk.financyapp.mappers.v1
 
-import org.ok.shkandiuk.financyapp.FinancyContext
+import org.ok.shkandiuk.financyapp.FinanceContext
 import org.ok.shkandiuk.financyapp.api.v1.models.*
 import org.ok.shkandiuk.financyapp.exception.UnknownFinanceCommand
 import org.ok.shkandiuk.financyapp.models.FinanceCommand
@@ -8,7 +8,7 @@ import org.ok.shkandiuk.financyapp.models.common.FinanceError
 import org.ok.shkandiuk.financyapp.models.common.FinanceState
 import org.ok.shkandiuk.financyapp.models.transaction.*
 
-fun FinancyContext.toTransportTransaction(): IResponse = when (val cmd = command) {
+fun FinanceContext.toTransportTransaction(): IResponse = when (val cmd = command) {
     FinanceCommand.CREATE -> toTransportCreate()
     FinanceCommand.READ -> toTransportRead()
     FinanceCommand.UPDATE -> toTransportUpdate()
@@ -16,21 +16,21 @@ fun FinancyContext.toTransportTransaction(): IResponse = when (val cmd = command
     FinanceCommand.NONE -> throw UnknownFinanceCommand(cmd)
 }
 
-private fun FinancyContext.toTransportDelete() = TransactionDeleteResponse(
+private fun FinanceContext.toTransportDelete() = TransactionDeleteResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == FinanceState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     transaction = transactionResponse.toTransportTransaction()
 )
 
-private fun FinancyContext.toTransportUpdate() = TransactionUpdateResponse(
+private fun FinanceContext.toTransportUpdate() = TransactionUpdateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == FinanceState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     transaction = transactionResponse.toTransportTransaction()
 )
 
-private fun FinancyContext.toTransportCreate() = TransactionCreateResponse(
+private fun FinanceContext.toTransportCreate() = TransactionCreateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == FinanceState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
@@ -71,7 +71,7 @@ private fun FinanceTransactionType.toTransportTransactionType(): TransactionType
     FinanceTransactionType.NONE -> null
 }
 
-private fun FinancyContext.toTransportRead() = TransactionReadResponse(
+private fun FinanceContext.toTransportRead() = TransactionReadResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == FinanceState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
