@@ -1,0 +1,1 @@
+package ru.otus.otuskotlin.financyapp.blackbox

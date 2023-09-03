@@ -5,7 +5,7 @@ plugins {
 }
 
 allprojects {
-    group = "org.shkandiuk.ok"
+    group = "org.ok.shkandiuk.financyapp"
     version = "1.0-SNAPSHOT"
 
     repositories {
