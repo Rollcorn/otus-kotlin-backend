@@ -1,6 +1,6 @@
 package org.ok.shkandiuk.financyapp.models.common
 
-enum class FinancyWorkMode{
+enum class FinanceWorkMode{
     PROD,
     TEST,
     STUB,

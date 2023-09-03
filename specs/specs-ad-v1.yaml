@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
-  title: "Marketplace ${VERSION_APP}"
-  description: This is a place where sellers and buyers meat each other
+  title: "Finance App ${VERSION_APP}"
+  description: This is a place where people can strict cash flow
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html

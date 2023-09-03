@@ -2,22 +2,22 @@ package org.ok.shkandiuk.financyapp
 
 import kotlinx.datetime.Instant
 import org.ok.shkandiuk.financyapp.stubs.FinancyStubs
-import org.ok.shkandiuk.financyapp.models.FinancyComand
+import org.ok.shkandiuk.financyapp.models.FinanceCommand
 import org.ok.shkandiuk.financyapp.models.common.*
-import org.ok.shkandiuk.financyapp.models.transaction.FinancyTransaction
+import org.ok.shkandiuk.financyapp.models.transaction.FinanceTransaction
 
 data class FinancyContext(
-    var command: FinancyComand = FinancyComand.NONE,
-    var state: FinancyState = FinancyState.NONE,
-    val errors: MutableList<FinancyError> = mutableListOf(),
+    var command: FinanceCommand = FinanceCommand.NONE,
+    var state: FinanceState = FinanceState.NONE,
+    val errors: MutableList<FinanceError> = mutableListOf(),
 
-    var workMode: FinancyWorkMode = FinancyWorkMode.PROD,
+    var workMode: FinanceWorkMode = FinanceWorkMode.PROD,
     var stubCase: FinancyStubs = FinancyStubs.NONE,
 
-    var requestId: FinancyRequestId = FinancyRequestId.NONE,
+    var requestId: FinanceRequestId = FinanceRequestId.NONE,
     var timeStart: Instant = Instant.NONE,
-    var transactionRequest: FinancyTransaction = FinancyTransaction(),
-    var transactionFilterRequest: FinancyTransactionFilter = FinancyTransactionFilter(),
-    var transactionResponse: FinancyTransaction = FinancyTransaction(),
-    var transactionsResponse: MutableList<FinancyTransaction> = mutableListOf(),
+    var transactionRequest: FinanceTransaction = FinanceTransaction(),
+    var transactionFilterRequest: FinanceTransactionFilter = FinanceTransactionFilter(),
+    var transactionResponse: FinanceTransaction = FinanceTransaction(),
+    var transactionsResponse: MutableList<FinanceTransaction> = mutableListOf(),
 )

@@ -1,11 +1,9 @@
 package org.ok.shkandiuk.financyapp.models
 
-enum class FinancyComand {
+enum class FinanceCommand {
     NONE,
     CREATE,
     READ,
     UPDATE,
     DELETE,
-    SEARCH,
-    OFFERS,
 }

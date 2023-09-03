@@ -1,4 +1,4 @@
-package org.ok.shkandiuk.financyapp;
+package org.ok.shkandiuk.financyapp
 
 import kotlinx.datetime.Instant
 

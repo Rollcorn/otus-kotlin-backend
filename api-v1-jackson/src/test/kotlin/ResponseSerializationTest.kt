@@ -1,7 +1,7 @@
 package org.shkandiuk.ok
 
+import org.ok.shkandiuk.financyapp.api.v1.models.*
 import org.shkandiuk.ok.api.v1.apiV1Mapper
-import org.shkandiuk.ok.api.v1.models.*
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
